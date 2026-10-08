@@ -12,6 +12,7 @@ import {
   UsersRound,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 type EmployeeMetricTone = 'blue' | 'green' | 'purple'
 
@@ -23,14 +24,15 @@ type EmployeeMetric = {
   icon: LucideIcon
 }
 
-type EmployeeStatus = 'Active' | 'Inactive'
-type FaceEnrollment = 'Enrolled' | 'Pending' | 'Not enrolled'
+export type EmployeeStatus = 'Active' | 'Inactive'
+export type FaceEnrollment = 'Enrolled' | 'Pending' | 'Not enrolled'
 
-type EmployeeRecord = {
+export type EmployeeRecord = {
   initials: string
   name: string
   employeeId: string
   department: string
+  position: string
   status: EmployeeStatus
   faceEnrollment: FaceEnrollment
   joined: string
@@ -67,12 +69,13 @@ const employeeMetrics: EmployeeMetric[] = [
   },
 ]
 
-const employees: EmployeeRecord[] = [
+export const employees: EmployeeRecord[] = [
   {
     initials: 'SA',
     name: 'Sarah Ahmed',
     employeeId: 'EMP-001',
     department: 'Operations',
+    position: 'Operations Specialist',
     status: 'Active',
     faceEnrollment: 'Enrolled',
     joined: 'Jan 12, 2025',
@@ -82,6 +85,7 @@ const employees: EmployeeRecord[] = [
     name: 'Michael Khan',
     employeeId: 'EMP-002',
     department: 'Engineering',
+    position: 'Software Engineer',
     status: 'Active',
     faceEnrollment: 'Enrolled',
     joined: 'Feb 03, 2025',
@@ -91,6 +95,7 @@ const employees: EmployeeRecord[] = [
     name: 'Fatima Noor',
     employeeId: 'EMP-003',
     department: 'Human Resources',
+    position: 'HR Coordinator',
     status: 'Active',
     faceEnrollment: 'Pending',
     joined: 'Mar 18, 2025',
@@ -100,6 +105,7 @@ const employees: EmployeeRecord[] = [
     name: 'Zain Ali',
     employeeId: 'EMP-004',
     department: 'Sales',
+    position: 'Sales Executive',
     status: 'Active',
     faceEnrollment: 'Enrolled',
     joined: 'Apr 07, 2025',
@@ -109,6 +115,7 @@ const employees: EmployeeRecord[] = [
     name: 'Usman Raza',
     employeeId: 'EMP-005',
     department: 'Engineering',
+    position: 'Systems Engineer',
     status: 'Active',
     faceEnrollment: 'Enrolled',
     joined: 'Apr 22, 2025',
@@ -118,6 +125,7 @@ const employees: EmployeeRecord[] = [
     name: 'Ayesha Malik',
     employeeId: 'EMP-006',
     department: 'Operations',
+    position: 'Operations Analyst',
     status: 'Active',
     faceEnrollment: 'Pending',
     joined: 'May 11, 2025',
@@ -127,6 +135,7 @@ const employees: EmployeeRecord[] = [
     name: 'Hamza Tariq',
     employeeId: 'EMP-007',
     department: 'Engineering',
+    position: 'QA Engineer',
     status: 'Inactive',
     faceEnrollment: 'Not enrolled',
     joined: 'Jun 02, 2025',
@@ -136,6 +145,7 @@ const employees: EmployeeRecord[] = [
     name: 'Maria Hassan',
     employeeId: 'EMP-008',
     department: 'Human Resources',
+    position: 'People Operations Associate',
     status: 'Active',
     faceEnrollment: 'Enrolled',
     joined: 'Jun 19, 2025',
@@ -331,9 +341,12 @@ function Employees() {
                         >
                           {employee.initials}
                         </span>
-                        <span className="text-xs font-semibold text-slate-800">
+                        <Link
+                          to={`/employees/${employee.employeeId}`}
+                          className="rounded-sm text-xs font-semibold text-slate-800 outline-none transition-colors hover:text-sky-700 focus-visible:ring-2 focus-visible:ring-sky-500"
+                        >
                           {employee.name}
-                        </span>
+                        </Link>
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-xs font-medium tabular-nums text-slate-500">

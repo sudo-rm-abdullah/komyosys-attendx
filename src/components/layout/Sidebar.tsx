@@ -74,7 +74,7 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
                 : label === 'Attendance'
                   ? pathname === '/attendance'
                   : label === 'Employees'
-                    ? pathname === '/employees'
+                    ? pathname === '/employees' || pathname.startsWith('/employees/')
                   : activeItem === label
 
             return (
