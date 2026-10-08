@@ -15,7 +15,7 @@ const navigationItems = [
   { label: 'Live Monitoring', icon: Activity },
   { label: 'Dashboard', to: '/', icon: LayoutDashboard },
   { label: 'Attendance', to: '/attendance', icon: Clock3 },
-  { label: 'Employees', icon: UsersRound },
+  { label: 'Employees', to: '/employees', icon: UsersRound },
   { label: 'Cameras', icon: Camera },
   { label: 'Reports', icon: BarChart3 },
   { label: 'Settings', icon: Settings },
@@ -67,12 +67,14 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
       <nav aria-label="Main navigation" className="flex-1">
         <ul className="space-y-1">
           {navigationItems.map(({ label, icon: Icon, ...navigation }) => {
-            const hasRoute = 'to' in navigation
+            const hasRoute = 'to' in navigation && navigation.to !== undefined
             const isActive =
               label === 'Dashboard'
                 ? pathname === '/' || pathname === '/dashboard'
                 : label === 'Attendance'
                   ? pathname === '/attendance'
+                  : label === 'Employees'
+                    ? pathname === '/employees'
                   : activeItem === label
 
             return (
