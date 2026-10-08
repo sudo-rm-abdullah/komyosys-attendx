@@ -9,15 +9,16 @@ import {
   ShieldCheck,
   UsersRound,
 } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 
 const navigationItems = [
-  { label: 'Live Monitoring', href: '/monitoring', icon: Activity },
-  { label: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { label: 'Attendance', href: '/attendance', icon: Clock3 },
-  { label: 'Employees', href: '/employees', icon: UsersRound },
-  { label: 'Cameras', href: '/cameras', icon: Camera },
-  { label: 'Reports', href: '/reports', icon: BarChart3 },
-  { label: 'Settings', href: '/settings', icon: Settings },
+  { label: 'Live Monitoring', icon: Activity },
+  { label: 'Dashboard', to: '/', icon: LayoutDashboard },
+  { label: 'Attendance', to: '/attendance', icon: Clock3 },
+  { label: 'Employees', icon: UsersRound },
+  { label: 'Cameras', icon: Camera },
+  { label: 'Reports', icon: BarChart3 },
+  { label: 'Settings', icon: Settings },
 ] as const
 
 export type SidebarItem = (typeof navigationItems)[number]['label']
@@ -28,10 +29,12 @@ type SidebarProps = {
 }
 
 function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
+  const { pathname } = useLocation()
+
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-slate-200/80 bg-white px-4 py-5 shadow-[2px_0_12px_rgba(15,23,42,0.025)]">
-      <a
-        href="/"
+      <Link
+        to="/"
         aria-label="Komyosys AttendX home"
         className="mb-8 flex items-center gap-3 rounded-xl px-2 py-1.5 outline-none transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-sky-500"
       >
@@ -46,7 +49,7 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
             AttendX
           </span>
         </span>
-      </a>
+      </Link>
 
       <div className="mb-3 flex items-center justify-between px-3">
         <span className="text-[10px] font-bold tracking-[0.16em] text-slate-400 uppercase">
@@ -63,21 +66,28 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
 
       <nav aria-label="Main navigation" className="flex-1">
         <ul className="space-y-1">
-          {navigationItems.map(({ label, href, icon: Icon }) => {
-            const isActive = activeItem === label
+          {navigationItems.map(({ label, icon: Icon, ...navigation }) => {
+            const hasRoute = 'to' in navigation
+            const isActive =
+              label === 'Dashboard'
+                ? pathname === '/' || pathname === '/dashboard'
+                : label === 'Attendance'
+                  ? pathname === '/attendance'
+                  : activeItem === label
 
             return (
               <li key={label}>
-                <a
-                  href={href}
-                  aria-current={isActive ? 'page' : undefined}
-                  onClick={() => onNavigate?.(label)}
-                  className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium outline-none transition-all focus-visible:ring-2 focus-visible:ring-sky-500 ${
-                    isActive
-                      ? 'bg-sky-50 text-sky-700 shadow-[inset_2px_0_0_#0284c7]'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
-                >
+                {hasRoute ? (
+                  <Link
+                    to={navigation.to}
+                    aria-current={isActive ? 'page' : undefined}
+                    onClick={() => onNavigate?.(label)}
+                    className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium outline-none transition-all focus-visible:ring-2 focus-visible:ring-sky-500 ${
+                      isActive
+                        ? 'bg-sky-50 text-sky-700 shadow-[inset_2px_0_0_#0284c7]'
+                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    }`}
+                  >
                   <Icon
                     aria-hidden="true"
                     className={`size-[18px] shrink-0 transition-colors ${
@@ -94,7 +104,27 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
                       className="ml-auto size-2 rounded-full bg-emerald-500 ring-4 ring-emerald-50"
                     />
                   )}
-                </a>
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onNavigate?.(label)}
+                    className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium text-slate-600 outline-none transition-all hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-sky-500"
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="size-[18px] shrink-0 text-slate-400 transition-colors group-hover:text-slate-600"
+                      strokeWidth={1.8}
+                    />
+                    <span>{label}</span>
+                    {label === 'Live Monitoring' && (
+                      <span
+                        aria-label="Live"
+                        className="ml-auto size-2 rounded-full bg-emerald-500 ring-4 ring-emerald-50"
+                      />
+                    )}
+                  </button>
+                )}
               </li>
             )
           })}
