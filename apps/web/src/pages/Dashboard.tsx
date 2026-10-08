@@ -1,10 +1,8 @@
 import {
-  Camera,
   Clock,
   UserMinus,
   Users,
   UsersRound,
-  Video,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import {
@@ -17,6 +15,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import CameraPreview from '../components/camera/CameraPreview'
+import { developmentCamera } from '../types/camera'
 
 type MetricTone = 'green' | 'red' | 'orange' | 'blue'
 
@@ -241,50 +241,20 @@ function Dashboard() {
             <div>
               <h2 className="text-sm font-semibold text-slate-900">Live Entrance</h2>
               <p className="mt-1 text-xs text-slate-500">
-                Main Entrance <span aria-hidden="true">•</span> Camera 01
+                {developmentCamera.location}{' '}
+                <span aria-hidden="true">•</span> {developmentCamera.id}
               </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700">
-                <span className="size-1.5 rounded-full bg-emerald-500" />
-                Camera Online
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-md bg-rose-50 px-2 py-1 text-[10px] font-bold tracking-wide text-rose-600">
-                <span className="size-1.5 rounded-full bg-rose-500" />
-                LIVE
-              </span>
             </div>
           </header>
 
-          <div className="relative flex min-h-64 items-center justify-center overflow-hidden rounded-lg border border-slate-800 bg-slate-950 px-4 py-8">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(148,163,184,0.22)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.22)_1px,transparent_1px)] [background-size:32px_32px]"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.12),transparent_65%)]"
-            />
-            <div className="relative flex flex-col items-center text-center">
-              <span className="mb-3 flex size-12 items-center justify-center rounded-xl border border-slate-700 bg-slate-900/80 text-sky-400">
-                <Video aria-hidden="true" className="size-6" strokeWidth={1.6} />
-              </span>
-              <p className="text-sm font-medium text-slate-200">
-                Live camera preview
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Waiting for camera feed
-              </p>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-white/10 bg-slate-950/75 px-4 py-2.5 backdrop-blur-sm">
-              <span className="text-[11px] text-slate-400">People detected</span>
-              <span className="text-xs font-semibold text-white">3</span>
-            </div>
-          </div>
-          <div className="mt-3 flex items-center gap-1.5 text-[11px] text-slate-400">
-            <Camera aria-hidden="true" className="size-3.5" />
-            Demo preview only
-          </div>
+          <CameraPreview
+            camera={developmentCamera}
+            compact
+            peopleDetected={0}
+          />
+          <p className="mt-3 text-[11px] text-slate-400">
+            Development webcam preview only · people detection is not connected
+          </p>
         </article>
 
         <article className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_rgba(15,23,42,0.035)] lg:col-span-1 xl:col-span-2">

@@ -16,7 +16,7 @@ const navigationItems = [
   { label: 'Dashboard', to: '/', icon: LayoutDashboard },
   { label: 'Attendance', to: '/attendance', icon: Clock3 },
   { label: 'Employees', to: '/employees', icon: UsersRound },
-  { label: 'Cameras', icon: Camera },
+  { label: 'Cameras', to: '/cameras', icon: Camera },
   { label: 'Reports', icon: BarChart3 },
   { label: 'Settings', icon: Settings },
 ] as const
@@ -75,7 +75,9 @@ function Sidebar({ activeItem = 'Dashboard', onNavigate }: SidebarProps) {
                   ? pathname === '/attendance'
                   : label === 'Employees'
                     ? pathname === '/employees' || pathname.startsWith('/employees/')
-                  : activeItem === label
+                        : label === 'Cameras'
+                          ? pathname === '/cameras' || pathname.startsWith('/cameras/')
+                        : activeItem === label
 
             return (
               <li key={label}>
