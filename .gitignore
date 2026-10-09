@@ -33,3 +33,8 @@ venv/
 *.njsproj
 *.sln
 *.sw?
+
+# Local biometric test data
+data/face_test/
+
+data/attendance/
