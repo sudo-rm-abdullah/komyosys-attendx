@@ -38,3 +38,6 @@ venv/
 data/face_test/
 
 data/attendance/
+
+# Local backup files
+*.bak
